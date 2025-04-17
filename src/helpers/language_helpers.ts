@@ -11,6 +11,8 @@ export function setAppLanguage(lang: string, i18n: i18n) {
 export function updateAppLanguage(i18n: i18n) {
   const localLang = localStorage.getItem(languageLocalStorageKey);
   if (!localLang) {
+    // 如果没有保存语言设置，默认使用简体中文
+    setAppLanguage("zh-CN", i18n);
     return;
   }
 
