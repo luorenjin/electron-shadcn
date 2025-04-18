@@ -17,8 +17,12 @@ interface ElectronWindow {
   maximize: () => Promise<void>;
   close: () => Promise<void>;
 }
+interface ElectronDebug {
+  toggleDevTools: (show: boolean) => void;
+}
 
 declare interface Window {
   themeMode: ThemeModeContext;
   electronWindow: ElectronWindow;
+  electronDebug: ElectronDebug;
 }
