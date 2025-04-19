@@ -31,17 +31,19 @@ export default function BaseLayout({
       <DragWindowRegion title="DeepData" />
       
       <div className="flex flex-1 overflow-hidden">
-        {/* 浮动菜单按钮 */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-12 left-4 z-50 rounded-full bg-background/80 backdrop-blur-sm shadow-md hover:bg-background"
-          onClick={() => setShowNav(!showNav)}
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
+        {/* 浮动菜单按钮 - 只在导航菜单关闭时显示 */}
+        {!showNav && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-12 left-4 z-50 rounded-full bg-background/80 backdrop-blur-sm shadow-md hover:bg-background"
+            onClick={() => setShowNav(true)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        )}
         
-        {/* 使用AnimatePresence实现菜单动画 */}
+        {/* 使用AnimatePresence实现菜单动画 - 修改位置确保不被按钮遮挡 */}
         <AnimatePresence>
           {showNav && (
             <motion.div
@@ -49,9 +51,9 @@ export default function BaseLayout({
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="absolute top-12 left-0 z-40 h-[calc(100%-48px)]"
+              className="fixed top-0 left-0 z-40 h-full pt-12"
             >
-              <NavigationMenu />
+              <NavigationMenu onClose={() => setShowNav(false)} />
             </motion.div>
           )}
         </AnimatePresence>

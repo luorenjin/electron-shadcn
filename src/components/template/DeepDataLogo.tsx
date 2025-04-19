@@ -4,9 +4,14 @@ import React from "react";
 interface LogoProps {
   size?: number;
   className?: string;
+  showText?: boolean; // 添加控制是否显示文字的属性
 }
 
-export default function DeepDataLogo({ size = 32, className = "" }: LogoProps) {
+export default function DeepDataLogo({ 
+  size = 32, 
+  className = "", 
+  showText = true // 默认显示文字
+}: LogoProps) {
   return (
     <div className={`inline-flex items-center ${className}`}>
       <svg
@@ -15,7 +20,7 @@ export default function DeepDataLogo({ size = 32, className = "" }: LogoProps) {
         viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="mr-2"
+        className={showText ? "mr-2" : ""}
       >
         {/* 海象身体 - 使用渐变蓝 */}
         <path
@@ -73,7 +78,8 @@ export default function DeepDataLogo({ size = 32, className = "" }: LogoProps) {
           </linearGradient>
         </defs>
       </svg>
-      <span className="font-bold text-lg">DeepData</span>
+      {/* 只有在 showText 为 true 时才显示文字 */}
+      {showText && <span className="font-bold text-lg">DeepData</span>}
     </div>
   );
 }

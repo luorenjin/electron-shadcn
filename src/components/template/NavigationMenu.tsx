@@ -120,12 +120,15 @@ export default function NavigationMenu({ onClose }: { onClose?: () => void }) {
       <div className="flex items-center justify-between p-4 border-b">
         {!collapsed && (
           <div className="flex items-center">
-            <DeepDataLogo className="h-8 w-8 mr-2" />
-            <span className="font-semibold">DeepData</span>
+            {/* 在展开状态下显示图标和文字 */}
+            <DeepDataLogo className="h-8" showText={true} />
           </div>
         )}
         {collapsed && (
-          <DeepDataLogo className="h-8 w-8 mx-auto" />
+          <div className="flex justify-center w-full">
+            {/* 在折叠状态下只显示图标，不显示文字 */}
+            <DeepDataLogo className="h-8" showText={false} />
+          </div>
         )}
         {!collapsed && onClose && (
           <Button variant="ghost" size="icon" className="rounded-full" onClick={onClose}>
@@ -152,28 +155,22 @@ export default function NavigationMenu({ onClose }: { onClose?: () => void }) {
                     className={cn(
                       "w-full justify-start",
                       isActive ? "bg-primary/10 text-primary font-medium" : "hover:bg-accent hover:text-accent-foreground",
-                      collapsed ? "px-2 py-3" : "px-2 py-5 h-auto"
+                      collapsed ? "p-2 flex justify-center" : "px-2 py-2"
                     )}
                     asChild
                   >
                     <Link to={item.path}>
                       {collapsed ? (
-                        <div className="flex flex-col items-center justify-center">
+                        <div className="flex items-center justify-center">
                           {item.icon}
-                          <span className="text-xs mt-1">{t(item.label).slice(0, 3)}</span>
                         </div>
                       ) : (
-                        <div className="flex flex-col items-start">
-                          <div className="flex items-center">
-                            {item.icon}
-                            <span className="ml-2 text-base">{t(item.label)}</span>
-                            {item.isNew && (
-                              <Badge className="ml-2" variant="outline">NEW</Badge>
-                            )}
-                          </div>
-                          <span className="text-xs text-muted-foreground mt-1 ml-7">
-                            {t(item.description || '')}
-                          </span>
+                        <div className="flex items-center">
+                          {item.icon}
+                          <span className="ml-2">{t(item.label)}</span>
+                          {item.isNew && (
+                            <Badge className="ml-2" variant="outline">NEW</Badge>
+                          )}
                         </div>
                       )}
                     </Link>
@@ -183,49 +180,39 @@ export default function NavigationMenu({ onClose }: { onClose?: () => void }) {
             </div>
           </div>
           
-          {/* 工具与设置区 */}
-          <div>
-            {!collapsed && (
+          {/* 工具与设置区 - 折叠时完全隐藏 */}
+          {!collapsed && (
+            <div>
               <h3 className="text-xs font-medium text-muted-foreground mb-2 px-2">{t('toolsAndSettings')}</h3>
-            )}
-            <div className="space-y-1">
-              {TOOL_MENU.map((item) => {
-                const isActive = currentPath === item.path;
-                
-                return (
-                  <Button
-                    key={item.path}
-                    variant="ghost"
-                    className={cn(
-                      "w-full justify-start",
-                      isActive ? "bg-primary/10 text-primary" : "hover:bg-accent hover:text-accent-foreground",
-                      collapsed ? "flex flex-col items-center p-2" : ""
-                    )}
-                    asChild
-                  >
-                    <Link to={item.path}>
-                      {collapsed ? (
-                        <>
-                          {item.icon}
-                          <span className="text-xs mt-1">{t(item.label).slice(0, 3)}</span>
-                        </>
-                      ) : (
-                        <>
-                          {item.icon}
-                          <span className="ml-2">{t(item.label)}</span>
-                          {item.pillText && (
-                            <Badge variant="outline" className="ml-auto">
-                              {item.pillText}
-                            </Badge>
-                          )}
-                        </>
+              <div className="space-y-1">
+                {TOOL_MENU.map((item) => {
+                  const isActive = currentPath === item.path;
+                  
+                  return (
+                    <Button
+                      key={item.path}
+                      variant="ghost"
+                      className={cn(
+                        "w-full justify-start py-2",
+                        isActive ? "bg-primary/10 text-primary" : "hover:bg-accent hover:text-accent-foreground"
                       )}
-                    </Link>
-                  </Button>
-                );
-              })}
+                      asChild
+                    >
+                      <Link to={item.path}>
+                        {item.icon}
+                        <span className="ml-2">{t(item.label)}</span>
+                        {item.pillText && (
+                          <Badge variant="outline" className="ml-auto">
+                            {item.pillText}
+                          </Badge>
+                        )}
+                      </Link>
+                    </Button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </ScrollArea>
       
@@ -255,7 +242,12 @@ export default function NavigationMenu({ onClose }: { onClose?: () => void }) {
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="sm" className="h-7 px-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-7 px-2"
+                onClick={toggleCollapse}
+              >
                 <PanelLeft className="h-3 w-3 mr-1" />
                 <span className="text-xs">{t('minimize')}</span>
               </Button>
