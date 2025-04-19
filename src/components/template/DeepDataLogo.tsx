@@ -8,7 +8,7 @@ interface LogoProps {
 }
 
 export default function DeepDataLogo({
-  size = 32,
+  size = 64,
   className = "",
   showText = true // 默认显示文字
 }: LogoProps) {
@@ -23,40 +23,44 @@ export default function DeepDataLogo({
         className={showText ? "mr-2" : ""}
         aria-label="DeepData Logo"
       >
-        {/* 海象侧面轮廓 - 主体 */}
+        {/* 海象侧面轮廓 - 主体，苗条的身体 */}
         <path 
-          d="M12 32C12 22 18 14 30 14C42 14 52 20 52 32C52 44 42 48 30 48C18 48 12 42 12 32Z" 
+          d="M48 36C48 28 44 20 34 20C24 20 16 26 16 36C16 46 24 50 34 50C44 50 48 44 48 36Z" 
           fill="#2563eb" 
         />
         
-        {/* 海象侧面头部 */}
+        {/* 海象头部 - 自然地扭头看向用户 */}
         <path 
-          d="M40 24C44 24 50 26 50 32C50 38 46 40 40 40C34 40 35 36 35 32C35 28 36 24 40 24Z" 
+          d="M26 20C22 20 14 22 13 27C12 32 14 36 19 36C24 36 27 33 28 30C29 27 30 20 26 20Z" 
           fill="#3b82f6" 
         />
         
-        {/* 海象长牙 - 突出的特征 */}
+        {/* 海象长牙 - 从头部自然延伸 */}
         <path 
-          d="M38 38L38 50C38 51.1 39.1 52 40 52C40.9 52 42 51.1 42 50L42 38" 
+          d="M16 30L13 37C12.5 38 13 39 13.5 39.5C14 40 15 40.2 16 39.5L19 33" 
           fill="#f1f5f9" 
           strokeWidth="1"
           stroke="#e2e8f0"
         />
         
-        {/* 海象眼睛 */}
-        <circle cx="44" cy="28" r="2" fill="#1e293b" />
+        {/* 海象眼睛 - 注视用户 */}
+        <circle cx="18" cy="26" r="1.5" fill="#1e293b" />
         
         {/* 海象侧面鼻子 */}
-        <ellipse cx="49" cy="32" rx="2" ry="1.5" fill="#1e293b" />
+        <ellipse cx="15" cy="30" rx="1.5" ry="1" fill="#1e293b" />
         
-        {/* 数据元素点线装饰 */}
-        <circle cx="20" cy="24" r="2" fill="#38bdf8" />
-        <circle cx="16" cy="32" r="1.5" fill="#38bdf8" />
-        <circle cx="20" cy="40" r="1" fill="#38bdf8" />
+        {/* 数据元素点线装饰，形成数据流网络 */}
+        <circle cx="38" cy="22" r="2" fill="#38bdf8" />
+        <circle cx="44" cy="28" r="1.5" fill="#38bdf8" />
+        <circle cx="42" cy="36" r="1.5" fill="#38bdf8" />
+        <circle cx="36" cy="44" r="1" fill="#38bdf8" />
+        <circle cx="28" cy="48" r="1" fill="#38bdf8" />
         
-        {/* 数据连接线 */}
-        <line x1="20" y1="24" x2="16" y2="32" stroke="#38bdf8" strokeWidth="1" />
-        <line x1="16" y1="32" x2="20" y2="40" stroke="#38bdf8" strokeWidth="1" />
+        {/* 数据连接线，形成流动感 */}
+        <line x1="38" y1="22" x2="44" y2="28" stroke="#38bdf8" strokeWidth="1" />
+        <line x1="44" y1="28" x2="42" y2="36" stroke="#38bdf8" strokeWidth="1" />
+        <line x1="42" y1="36" x2="36" y2="44" stroke="#38bdf8" strokeWidth="1" />
+        <line x1="36" y1="44" x2="28" y2="48" stroke="#38bdf8" strokeWidth="1" />
       </svg>
       {showText && <span className="font-bold text-lg">DeepData</span>}
     </div>

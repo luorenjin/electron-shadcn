@@ -4,7 +4,6 @@ import {
   minimizeWindow,
 } from "@/helpers/window_helpers";
 import React, { type ReactNode, useState, useEffect } from "react";
-import DeepDataLogo from "./template/DeepDataLogo";
 import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { commandPaletteEventBus } from "@/helpers/command-palette-bus";
@@ -49,7 +48,7 @@ export default function DragWindowRegion({ title }: DragWindowRegionProps) {
         <div className="flex items-center">
           {title ? (
             <div className="flex select-none items-center">
-              <DeepDataLogo size={24} />
+              <span className="font-medium text-sm">{title}</span>
             </div>
           ) : null}
         </div>
