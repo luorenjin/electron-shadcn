@@ -9,6 +9,25 @@ i18n.use(initReactI18next).init({
         appName: "DeepData",
         aiDataAssistant: "AI Data Assistant",
         
+        // 三大核心支柱
+        conversation: "Conversation",
+        canvas: "Canvas",
+        collection: "Collection",
+        askAnything: "Ask anything about your data",
+        dataCreationSpace: "Create interactive data stories",
+        dataLibrary: "Your organized data collection",
+        
+        // 新导航菜单
+        coreFeatures: "Core Features",
+        toolsAndSettings: "Tools & Settings",
+        overview: "Overview & Recent Activities",
+        connectData: "Connect to data sources",
+        processData: "Process & transform data",
+        knowledgeBase: "Knowledge & insights",
+        appSettings: "Application settings",
+        connected: "Connected",
+        minimize: "Minimize",
+        
         // 导航菜单 - 重构后
         workspace: "Workspace",
         dataHub: "Data Hub",
@@ -27,6 +46,40 @@ i18n.use(initReactI18next).init({
         knowledge: "Knowledge",
         knowledgeDesc: "Organize and access your knowledge base for AI-powered assistance",
         settings: "Settings",
+        
+        // 对话页面
+        typeYourQuestion: "What would you like to know?",
+        sendMessage: "Send",
+        clearConversation: "Clear conversation",
+        suggestedQuestions: "Suggested questions",
+        questionSuggestion1: "Show me trends in my sales data",
+        questionSuggestion2: "Analyze customer feedback sentiment",
+        questionSuggestion3: "Compare this month's metrics to last month",
+        questionSuggestion4: "Find anomalies in my transaction data",
+        aiThinking: "Thinking...",
+        shareConversation: "Share this conversation",
+        saveToCollection: "Save to collection",
+        
+        // 画布页面
+        canvasEmptyState: "Start creating your data story",
+        addVisualization: "Add visualization",
+        addText: "Add text",
+        addData: "Add data",
+        layoutOptions: "Layout options",
+        saveCanvas: "Save canvas",
+        exportCanvas: "Export",
+        canvasTemplates: "Templates",
+        dragAndDrop: "Drag and drop elements here",
+        
+        // 藏品页面
+        recentItems: "Recent items",
+        favorites: "Favorites",
+        allCollections: "All collections",
+        addToCollection: "Add to collection",
+        createCollection: "Create collection",
+        searchCollections: "Search collections",
+        noCollectionsFound: "No collections found",
+        collectionDetails: "Collection details",
         
         // 按钮
         open: "Open",
@@ -146,13 +199,31 @@ i18n.use(initReactI18next).init({
         dataProcess: "Data Processing",
         dataAnalysis: "Data Analysis",
         aiAssistant: "AI Assistant",
-        knowledgeBase: "Knowledge Base",
       },
     },
     "zh-CN": {
       translation: {
         appName: "DeepData",
         aiDataAssistant: "AI 数据助手",
+        
+        // 三大核心支柱
+        conversation: "对话",
+        canvas: "画布",
+        collection: "藏品",
+        askAnything: "询问任何数据相关问题",
+        dataCreationSpace: "创建交互式数据故事",
+        dataLibrary: "您的有序数据收藏",
+        
+        // 新导航菜单
+        coreFeatures: "核心功能",
+        toolsAndSettings: "工具与设置",
+        overview: "概览与最近活动",
+        connectData: "连接数据源",
+        processData: "处理与转换数据",
+        knowledgeBase: "知识与洞察",
+        appSettings: "应用程序设置",
+        connected: "已连接",
+        minimize: "最小化",
         
         // 导航菜单 - 重构后
         workspace: "工作台",
@@ -172,6 +243,40 @@ i18n.use(initReactI18next).init({
         knowledge: "知识库",
         knowledgeDesc: "组织和访问您的知识库，以获得AI驱动的帮助",
         settings: "设置",
+        
+        // 对话页面
+        typeYourQuestion: "您想了解什么？",
+        sendMessage: "发送",
+        clearConversation: "清除对话",
+        suggestedQuestions: "建议问题",
+        questionSuggestion1: "显示我的销售数据趋势",
+        questionSuggestion2: "分析客户反馈情绪",
+        questionSuggestion3: "比较本月指标与上月的差异",
+        questionSuggestion4: "查找交易数据中的异常",
+        aiThinking: "思考中...",
+        shareConversation: "分享此对话",
+        saveToCollection: "保存到藏品",
+        
+        // 画布页面
+        canvasEmptyState: "开始创建您的数据故事",
+        addVisualization: "添加可视化",
+        addText: "添加文本",
+        addData: "添加数据",
+        layoutOptions: "布局选项",
+        saveCanvas: "保存画布",
+        exportCanvas: "导出",
+        canvasTemplates: "模板",
+        dragAndDrop: "在此处拖放元素",
+        
+        // 藏品页面
+        recentItems: "最近项目",
+        favorites: "收藏夹",
+        allCollections: "所有藏品",
+        addToCollection: "添加到藏品",
+        createCollection: "创建藏品",
+        searchCollections: "搜索藏品",
+        noCollectionsFound: "未找到藏品",
+        collectionDetails: "藏品详情",
         
         // 按钮
         open: "打开",
@@ -291,7 +396,6 @@ i18n.use(initReactI18next).init({
         dataProcess: "数据处理",
         dataAnalysis: "数据分析",
         aiAssistant: "智能助手",
-        knowledgeBase: "知识库",
       },
     },
     // 简化其他语言的翻译，留下基本结构
