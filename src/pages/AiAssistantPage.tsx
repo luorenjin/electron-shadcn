@@ -1,315 +1,301 @@
 // filepath: d:\Work\AiDev\electron-shadcn\src\pages\AiAssistantPage.tsx
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { cn } from "@/utils/tailwind";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  Send,
-  Bot,
-  User,
-  PlusCircle,
-  Share2,
-  Trash2,
-  BarChart2,
-  BookmarkPlus,
-  Sparkles
+import { 
+  Send, 
+  Mic, 
+  Image as ImageIcon, 
+  File, 
+  Settings, 
+  MessageSquare, 
+  Sparkles, 
+  Bot, 
+  RefreshCw
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { cn } from "@/utils/tailwind";
 
-// 消息类型定义
+// 定义消息类型
 interface Message {
   id: string;
-  role: "user" | "assistant";
   content: string;
+  role: 'user' | 'assistant';
   timestamp: Date;
-  isThinking?: boolean;
-  hasChart?: boolean;
+  isLoading?: boolean;
 }
 
-// 建议问题列表
-const SUGGESTED_QUESTIONS = [
-  "questionSuggestion1",
-  "questionSuggestion2",
-  "questionSuggestion3",
-  "questionSuggestion4"
-];
+// 定义模型选项
+interface ModelOption {
+  id: string;
+  name: string;
+  description: string;
+  isActive: boolean;
+}
 
 export default function AiAssistantPage() {
   const { t } = useTranslation();
-  const [input, setInput] = useState("");
-  const [isThinking, setIsThinking] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // 自动滚动到最新消息
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  // 焦点到输入框
-  useEffect(() => {
-    // 短暂延迟，确保组件完全渲染
-    const timer = setTimeout(() => {
-      inputRef.current?.focus();
-    }, 100);
+  
+  // 模拟的大模型列表
+  const modelOptions: ModelOption[] = [
+    { id: 'gpt-4', name: 'GPT-4', description: 'highCapacity', isActive: true },
+    { id: 'claude-3', name: 'Claude 3', description: 'balancedModel', isActive: false },
+    { id: 'qwen-plus', name: 'Qwen Plus', description: 'fastResponses', isActive: false },
+  ];
+  
+  // 消息发送处理
+  const handleSendMessage = () => {
+    if (inputValue.trim() === '') return;
     
-    return () => clearTimeout(timer);
-  }, []);
-
-  // 发送消息处理函数
-  const handleSend = async () => {
-    if (!input.trim() && !isThinking) return;
-    
+    // 创建用户消息
     const userMessage: Message = {
-      id: `user-${Date.now()}`,
-      role: "user",
-      content: input,
+      id: Date.now().toString(),
+      content: inputValue,
+      role: 'user',
       timestamp: new Date()
     };
     
-    // 添加用户消息
-    setMessages(prev => [...prev, userMessage]);
-    setInput("");
-    setIsThinking(true);
-    
-    // 添加思考中的消息
-    const thinkingMessage: Message = {
-      id: `assistant-${Date.now()}`,
-      role: "assistant",
-      content: "",
+    // 创建模拟的助手回复（加载状态）
+    const assistantMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      content: '',
+      role: 'assistant',
       timestamp: new Date(),
-      isThinking: true
+      isLoading: true
     };
     
-    setMessages(prev => [...prev, thinkingMessage]);
+    setMessages([...messages, userMessage, assistantMessage]);
+    setInputValue('');
+    setIsLoading(true);
     
-    // 模拟 AI 回复（实际项目中会调用真实的 AI API）
+    // 模拟异步响应
     setTimeout(() => {
-      setIsThinking(false);
+      setMessages(prevMessages => {
+        const updatedMessages = [...prevMessages];
+        const lastMessageIndex = updatedMessages.length - 1;
+        
+        updatedMessages[lastMessageIndex] = {
+          ...updatedMessages[lastMessageIndex],
+          content: `这是对 "${inputValue}" 的模拟响应。在实际应用中，这里将是AI模型的真实回复。`,
+          isLoading: false
+        };
+        
+        return updatedMessages;
+      });
       
-      // 生成示例回复
-      const reply = `这是对"${userMessage.content}"的回复。在实际产品中，这里会是真实的AI助手回答。`;
-      
-      // 添加一个随机图表示例（模拟真实数据可视化）
-      const hasChart = userMessage.content.toLowerCase().includes("趋势") || 
-                      userMessage.content.toLowerCase().includes("比较") || 
-                      userMessage.content.toLowerCase().includes("分析");
-      
-      setMessages(prev => 
-        prev.map(msg => 
-          msg.isThinking ? {
-            ...msg,
-            content: reply,
-            isThinking: false,
-            hasChart
-          } : msg
-        )
-      );
-    }, 2000);
+      setIsLoading(false);
+    }, 1500);
   };
-
-  // 快速提问功能
-  const handleQuickQuestion = (questionKey: string) => {
-    setInput(t(questionKey));
-    inputRef.current?.focus();
+  
+  // 处理Enter键发送消息
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
   };
-
-  // 清除对话
-  const handleClearConversation = () => {
-    setMessages([]);
-  };
-
+  
+  // 滚动到最新消息
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+  
+  // 获取当前激活的模型
+  const activeModel = modelOptions.find(model => model.isActive);
+  
   return (
-    <div className="flex flex-col h-[calc(100vh-100px)]">
-      {messages.length === 0 ? (
-        <div className="flex flex-col items-center justify-center flex-1 px-4">
-          <div className="w-full max-w-2xl text-center space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Bot className="h-20 w-20 mx-auto mb-6 text-primary/60" />
-              <h1 className="text-4xl font-bold tracking-tight mb-4">{t("conversation")}</h1>
-              <p className="text-muted-foreground text-xl max-w-lg mx-auto">
-                {t("askAnything")}
-              </p>
-            </motion.div>
+    <div className="flex h-full">
+      {/* 左侧主会话区域 */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* 会话历史 */}
+        <div className="flex-1 overflow-hidden relative">
+          <Card className="border-none bg-transparent shadow-none h-full flex flex-col">
+            <ScrollArea className="flex-1 px-4 py-2">
+              {messages.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full text-center py-16">
+                  <div className="bg-primary/10 p-4 rounded-full mb-4">
+                    <MessageSquare className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">{t('startConversation')}</h3>
+                  <p className="text-muted-foreground max-w-md mb-8">{t('aiAssistantDescription')}</p>
+                  
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 w-full max-w-2xl">
+                    {[
+                      { title: 'dataAnalysis', icon: <Sparkles className="h-5 w-5" />, query: t('suggestedQuery1') },
+                      { title: 'textProcessing', icon: <Bot className="h-5 w-5" />, query: t('suggestedQuery2') },
+                      { title: 'codeGeneration', icon: <File className="h-5 w-5" />, query: t('suggestedQuery3') },
+                      { title: 'brainstorming', icon: <MessageSquare className="h-5 w-5" />, query: t('suggestedQuery4') }
+                    ].map((suggestion, i) => (
+                      <Button
+                        key={i}
+                        variant="outline"
+                        className="flex items-start text-left h-auto p-4 justify-start"
+                        onClick={() => {
+                          setInputValue(suggestion.query);
+                        }}
+                      >
+                        <div className="bg-primary/10 p-2 rounded-full mr-3">
+                          {suggestion.icon}
+                        </div>
+                        <div>
+                          <h4 className="font-medium mb-1">{t(suggestion.title)}</h4>
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            {suggestion.query}
+                          </p>
+                        </div>
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-6 pb-6">
+                  {messages.map(message => (
+                    <div
+                      key={message.id}
+                      className={cn(
+                        "flex",
+                        message.role === 'user' ? "justify-end" : "justify-start"
+                      )}
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className={cn(
+                          "max-w-[80%] rounded-lg p-4",
+                          message.role === 'user' 
+                            ? "bg-primary text-primary-foreground" 
+                            : "bg-muted"
+                        )}
+                      >
+                        {message.isLoading ? (
+                          <div className="flex items-center space-x-2">
+                            <RefreshCw className="h-4 w-4 animate-spin" />
+                            <span>{t('thinking')}</span>
+                          </div>
+                        ) : (
+                          <div className="whitespace-pre-wrap">{message.content}</div>
+                        )}
+                      </motion.div>
+                    </div>
+                  ))}
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
+            </ScrollArea>
+          </Card>
+        </div>
+        
+        {/* 输入区域 */}
+        <div className="bg-background/70 backdrop-blur-sm p-4 border-t">
+          <div className="mx-auto max-w-3xl relative">
+            {/* 活跃模型标识 */}
+            <div className="flex justify-center mb-2">
+              <Badge variant="outline" className="bg-background/50 backdrop-blur-sm">
+                <Bot className="h-3 w-3 mr-1" />
+                {activeModel?.name} - {t(activeModel?.description || '')}
+              </Badge>
+            </div>
             
-            <div className="grid grid-cols-2 gap-3 mt-8">
-              {SUGGESTED_QUESTIONS.map((key, index) => (
-                <Button 
-                  key={index}
-                  variant="outline"
-                  className="h-auto py-3 px-4 justify-start text-left"
-                  onClick={() => handleQuickQuestion(key)}
-                >
-                  <span className="mr-2">
-                    <Sparkles className="h-4 w-4" />
-                  </span>
-                  {t(key)}
+            <div className="flex items-center bg-background border rounded-lg shadow-sm">
+              <Textarea
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyPress}
+                placeholder={t('typeMessage')}
+                className="min-h-[60px] max-h-[200px] border-0 focus-visible:ring-0 resize-none py-3 px-4"
+              />
+              
+              <div className="flex items-center px-3 gap-1">
+                <Button variant="ghost" size="icon" disabled={isLoading} className="rounded-full">
+                  <File className="h-4 w-4" />
                 </Button>
-              ))}
+                <Button variant="ghost" size="icon" disabled={isLoading} className="rounded-full">
+                  <ImageIcon className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="icon" disabled={isLoading} className="rounded-full">
+                  <Mic className="h-4 w-4" />
+                </Button>
+                <Button 
+                  size="icon" 
+                  className="rounded-full ml-1" 
+                  disabled={inputValue.trim() === '' || isLoading}
+                  onClick={handleSendMessage}
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      ) : (
-        <ScrollArea className="flex-1 px-4 py-4">
-          <div className="max-w-3xl mx-auto space-y-6">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={cn(
-                  "flex",
-                  message.role === "user" ? "justify-end" : "justify-start"
-                )}
-              >
+      </div>
+      
+      {/* 右侧设置面板 - 可通过媒体查询在小屏幕上隐藏 */}
+      <div className="w-80 border-l bg-muted/30 p-4 hidden lg:block">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-lg font-medium">{t('conversationSettings')}</h3>
+          <Button variant="outline" size="icon" className="rounded-full">
+            <Settings className="h-4 w-4" />
+          </Button>
+        </div>
+        
+        <div className="space-y-6">
+          {/* 模型选择 */}
+          <div>
+            <h4 className="text-sm font-medium mb-2">{t('selectedModel')}</h4>
+            <div className="space-y-2">
+              {modelOptions.map(model => (
                 <div
+                  key={model.id}
                   className={cn(
-                    "flex max-w-[80%]",
-                    message.role === "user" ? "flex-row" : "flex-row-reverse"
+                    "px-4 py-3 rounded-lg border cursor-pointer",
+                    model.isActive 
+                      ? "bg-primary/10 border-primary" 
+                      : "bg-background hover:bg-accent"
                   )}
                 >
-                  <div
-                    className={cn(
-                      "flex items-start justify-center rounded-full h-8 w-8 mt-1",
-                      message.role === "user"
-                        ? "bg-primary ml-2"
-                        : "bg-muted mr-2"
-                    )}
-                  >
-                    {message.role === "user" ? (
-                      <User className="h-4 w-4 text-primary-foreground mt-2" />
-                    ) : (
-                      <Bot className="h-4 w-4 text-foreground mt-2" />
+                  <div className="flex justify-between items-center">
+                    <div className="font-medium">{model.name}</div>
+                    {model.isActive && (
+                      <Badge variant="default" className="text-xs">
+                        {t('active')}
+                      </Badge>
                     )}
                   </div>
-                  <Card
-                    className={cn(
-                      "p-3",
-                      message.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted"
-                    )}
-                  >
-                    {message.isThinking ? (
-                      <div className="flex items-center space-x-2">
-                        <div className="text-sm">{t("aiThinking")}</div>
-                        <div className="flex space-x-1">
-                          <motion.span
-                            className="h-1.5 w-1.5 bg-current rounded-full"
-                            animate={{ scale: [1, 1.3, 1] }}
-                            transition={{ repeat: Infinity, duration: 0.8, repeatDelay: 0.2 }}
-                          />
-                          <motion.span
-                            className="h-1.5 w-1.5 bg-current rounded-full"
-                            animate={{ scale: [1, 1.3, 1] }}
-                            transition={{ repeat: Infinity, duration: 0.8, delay: 0.2, repeatDelay: 0.2 }}
-                          />
-                          <motion.span
-                            className="h-1.5 w-1.5 bg-current rounded-full"
-                            animate={{ scale: [1, 1.3, 1] }}
-                            transition={{ repeat: Infinity, duration: 0.8, delay: 0.4, repeatDelay: 0.2 }}
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        <div className="text-sm whitespace-pre-wrap">{message.content}</div>
-                        
-                        {/* 可视化图表示例（实际应用中会基于真实数据生成） */}
-                        {message.hasChart && (
-                          <div className="mt-3 p-3 bg-background/50 rounded-md">
-                            <div className="flex items-center justify-between mb-2">
-                              <Badge variant="outline">数据可视化</Badge>
-                              <p className="text-xs text-muted-foreground">示例图表</p>
-                            </div>
-                            <div className="h-[180px] bg-gradient-to-r from-primary/30 to-primary/10 rounded-md flex items-center justify-center">
-                              <BarChart2 className="h-12 w-12 text-primary/50" />
-                            </div>
-                            <p className="text-xs text-muted-foreground mt-2">
-                              基于您的查询生成的数据可视化。在实际产品中，这里将是基于真实数据的交互式图表。
-                            </p>
-                          </div>
-                        )}
-                        
-                        {/* 助手消息的操作按钮 */}
-                        {message.role === "assistant" && !message.isThinking && (
-                          <div className="flex items-center space-x-2 mt-3 justify-end">
-                            <Button size="icon" variant="ghost" className="h-7 w-7">
-                              <Share2 className="h-3.5 w-3.5" />
-                            </Button>
-                            <Button size="icon" variant="ghost" className="h-7 w-7">
-                              <BookmarkPlus className="h-3.5 w-3.5" />
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </Card>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {t(model.description)}
+                  </p>
                 </div>
-              </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-        </ScrollArea>
-      )}
-
-      {/* 底部输入区域 */}
-      <div className="border-t p-4 bg-background/80 backdrop-blur-sm">
-        <div className="max-w-3xl mx-auto flex flex-col space-y-2">
-          <div className="flex space-x-2">
-            <Input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              placeholder={t("typeYourQuestion")}
-              className="flex-1"
-              disabled={isThinking}
-            />
-            <Button onClick={handleSend} disabled={!input.trim() || isThinking}>
-              <Send className="h-4 w-4 mr-1" />
-              {t("sendMessage")}
-            </Button>
+              ))}
+            </div>
           </div>
           
-          {messages.length > 0 && (
-            <div className="flex justify-between items-center pt-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-xs text-muted-foreground"
-                onClick={handleClearConversation}
-              >
-                <Trash2 className="h-3.5 w-3.5 mr-1" />
-                {t("clearConversation")}
-              </Button>
-              
-              <div className="text-xs text-muted-foreground">
-                {t("conversation")} · DeepData AI
-              </div>
-              
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-xs text-muted-foreground"
-              >
-                <PlusCircle className="h-3.5 w-3.5 mr-1" />
-                {t("saveToCollection")}
-              </Button>
+          {/* 上下文设置 */}
+          <div>
+            <h4 className="text-sm font-medium mb-2">{t('contextSettings')}</h4>
+            <div className="space-y-1">
+              {[
+                { label: 'memoryLength', value: t('medium') },
+                { label: 'responseStyle', value: t('balanced') },
+                { label: 'expertiseLevel', value: t('advanced') }
+              ].map((setting, i) => (
+                <div key={i} className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">{t(setting.label)}</span>
+                  <Badge variant="outline" className="bg-background">
+                    {setting.value}
+                  </Badge>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

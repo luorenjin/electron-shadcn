@@ -56,9 +56,11 @@ export default function BaseLayout({
           )}
         </AnimatePresence>
         
-        {/* 主内容区域 */}
-        <main className="flex-1 overflow-auto">
-          {children}
+        {/* 主内容区域 - 添加内填充和边界 */}
+        <main className="flex-1 overflow-auto p-6">
+          <div className="mx-auto max-w-7xl">
+            {children}
+          </div>
         </main>
       </div>
       
