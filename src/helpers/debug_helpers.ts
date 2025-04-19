@@ -49,6 +49,9 @@ export function setDebugMode(enabled: boolean): void {
   }
 }
 
+// 定义控制台参数类型
+type ConsoleArgument = string | number | boolean | object | null | undefined;
+
 /**
  * 设置错误过滤器，减少不必要的警告干扰
  */
@@ -57,7 +60,7 @@ function setupErrorFilters(): void {
   const originalConsoleError = console.error;
   
   // 重写 console.error 方法，过滤已知的无害错误
-  console.error = function(...args: any[]) {
+  console.error = function(...args: ConsoleArgument[]) {
     // 检查错误消息是否匹配已知的无害错误模式
     if (args.length > 0 && typeof args[0] === 'string') {
       for (const pattern of knownHarmlessErrors) {
@@ -87,7 +90,7 @@ export function getDebugMode(): boolean {
 /**
  * 调试日志函数，仅在调试模式下输出日志
  */
-export function debugLog(...args: any[]): void {
+export function debugLog(...args: ConsoleArgument[]): void {
   if (getDebugMode()) {
     console.log('🐛 [DEBUG]', ...args);
   }
@@ -96,7 +99,7 @@ export function debugLog(...args: any[]): void {
 /**
  * 调试警告，仅在调试模式下输出警告
  */
-export function debugWarn(...args: any[]): void {
+export function debugWarn(...args: ConsoleArgument[]): void {
   if (getDebugMode()) {
     console.warn('⚠️ [DEBUG]', ...args);
   }
@@ -105,7 +108,7 @@ export function debugWarn(...args: any[]): void {
 /**
  * 调试错误，仅在调试模式下输出错误
  */
-export function debugError(...args: any[]): void {
+export function debugError(...args: ConsoleArgument[]): void {
   if (getDebugMode()) {
     console.error('❌ [DEBUG]', ...args);
   }

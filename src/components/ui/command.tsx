@@ -1,12 +1,11 @@
 import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
-import { SearchIcon, X } from "lucide-react"
+import { SearchIcon } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
 import { cn } from "@/utils/tailwind"
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,

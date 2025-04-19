@@ -51,10 +51,10 @@ npm run start
 
 ### 添加 shadcn/ui 组件
 
-使用 shadcn/ui 的 canary 版本以确保与 React 19 和 Tailwind v4 的兼容性：
+使用 shadcn/ui 的 latest 版本以确保与 React 19 和 Tailwind v4 的兼容性：
 
 ```bash
-npx shadcn@canary add [组件名]
+npx shadcn@latest add [组件名]
 ```
 
 ### 目录使用规范
@@ -119,10 +119,20 @@ npm run publish      # 发布应用
 
 ## 注意事项
 
-1. 确保使用 shadcn/ui 的 canary 版本，以避免与 React 19 和 Tailwind v4 的兼容性问题
-2. 开发时使用 TypeScript 类型系统减少运行时错误
-3. 使用 Zod 进行数据验证，特别是处理用户输入和外部 API 数据时
-4. 测试 E2E 功能前需要先构建应用
+1. 确保使用 shadcn/ui 的 latest 版本，以避免与 React 19 和 Tailwind v4 的兼容性问题
+2. **在编写页面和组件时，必须优先使用 shadcn/ui 组件库，非必要不要自行创建组件**，以保持界面风格统一
+3. **图标使用必须遵循以下规范：**
+   - **强制使用 Lucide 图标库**（`lucide-react`），保持整个应用的图标风格一致
+   - 图标颜色应继承父元素颜色，除非特定场景需要强调
+   - 图标尺寸应遵循统一规范：
+     - 导航和侧边栏图标：`h-5 w-5`
+     - 按钮内图标：`h-4 w-4`
+     - 表单图标：`h-4 w-4`
+     - 对话框和命令面板图标：`h-4 w-4`
+   - 避免使用其他图标库或自定义 SVG，确保视觉语言统一
+4. 开发时使用 TypeScript 类型系统减少运行时错误
+5. 使用 Zod 进行数据验证，特别是处理用户输入和外部 API 数据时
+6. 测试 E2E 功能前需要先构建应用
 
 ## 贡献指南
 

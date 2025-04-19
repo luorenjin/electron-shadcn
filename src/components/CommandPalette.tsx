@@ -1,7 +1,6 @@
 // filepath: d:\Work\AiDev\electron-shadcn\src\components\CommandPalette.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
-import { useRouter } from "@tanstack/react-router";
 import {
   Database,
   LineChart,
@@ -27,10 +26,29 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { commandPaletteEventBus } from "@/helpers/command-palette-bus";
+import { router } from "@/routes/router";
+
+// 定义应用路由路径类型，确保类型安全
+type AppRoutePath = 
+  | "/"
+  | "/data-collect"
+  | "/data-process" 
+  | "/data-analysis"
+  | "/ai-assistant"
+  | "/knowledge-base"
+  | "/settings"
+  | "/second-page";
+
+// 定义命令项类型
+interface CommandItem {
+  icon: ReactElement;
+  name: string;
+  shortcut: string;
+  action: () => void;
+}
 
 export function CommandPalette() {
   const { t } = useTranslation();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -66,46 +84,51 @@ export function CommandPalette() {
     command();
   }, []);
 
-  const navigationCommands = [
+  // 定义一个与路由无关的导航函数
+  const navigateTo = (path: AppRoutePath) => {
+    router.navigate({ to: path });
+  };
+
+  const navigationCommands: CommandItem[] = [
     {
       icon: <Database className="mr-2 h-4 w-4" />,
       name: t("dataCollect"),
       shortcut: "D C",
-      action: () => router.navigate({ to: "/data-collect" as any }),
+      action: () => navigateTo("/data-collect"),
     },
     {
       icon: <Terminal className="mr-2 h-4 w-4" />,
       name: t("dataProcess"),
       shortcut: "D P",
-      action: () => router.navigate({ to: "/data-process" as any }),
+      action: () => navigateTo("/data-process"),
     },
     {
       icon: <LineChart className="mr-2 h-4 w-4" />,
       name: t("dataAnalysis"),
       shortcut: "D A",
-      action: () => router.navigate({ to: "/data-analysis" as any }),
+      action: () => navigateTo("/data-analysis"),
     },
     {
       icon: <Bot className="mr-2 h-4 w-4" />,
       name: t("aiAssistant"),
       shortcut: "A I",
-      action: () => router.navigate({ to: "/ai-assistant" as any }),
+      action: () => navigateTo("/ai-assistant"),
     },
     {
       icon: <BookOpen className="mr-2 h-4 w-4" />,
       name: t("knowledgeBase"),
       shortcut: "K B",
-      action: () => router.navigate({ to: "/knowledge-base" as any }),
+      action: () => navigateTo("/knowledge-base"),
     },
     {
       icon: <Settings className="mr-2 h-4 w-4" />,
       name: t("settings"),
       shortcut: "S T",
-      action: () => router.navigate({ to: "/settings" as any }),
+      action: () => navigateTo("/settings"),
     },
   ];
 
-  const actionCommands = [
+  const actionCommands: CommandItem[] = [
     {
       icon: <FileText className="mr-2 h-4 w-4" />,
       name: t("newProject"),

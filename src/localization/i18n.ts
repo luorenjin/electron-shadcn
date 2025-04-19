@@ -9,14 +9,39 @@ i18n.use(initReactI18next).init({
         appName: "DeepData",
         aiDataAssistant: "AI Data Assistant",
         
-        // 导航菜单
-        dashboard: "Dashboard",
-        dataCollect: "Data Collection",
-        dataProcess: "Data Processing",
-        dataAnalysis: "Data Analysis",
-        aiAssistant: "AI Assistant",
-        knowledgeBase: "Knowledge Base",
+        // 导航菜单 - 重构后
+        workspace: "Workspace",
+        dataHub: "Data Hub",
+        dataHubDesc: "Collect, process and analyze your data in one place",
+        dataSources: "Data Sources",
+        dataSourcesDesc: "Connect and collect data from various sources including files, APIs, databases and websites",
+        datasets: "Datasets",
+        datasetsDesc: "Transform, clean and prepare your data for analysis",
+        analytics: "Analytics",
+        analyticsDesc: "Visualize and gain insights from your data through charts and AI analysis",
+        aiToolkit: "Toolkit",
+        aiToolkitDesc: "Access AI tools and models to enhance your data workflow",
+        assistant: "Assistant",
+        models: "Models",
+        modelsDesc: "Manage your AI models and their configurations",
+        knowledge: "Knowledge",
+        knowledgeDesc: "Organize and access your knowledge base for AI-powered assistance",
         settings: "Settings",
+        
+        // 按钮
+        open: "Open",
+        manage: "Manage",
+        addModel: "Add Model",
+        
+        // 模型页面
+        modelsPageDesc: "Manage and configure AI models for your applications",
+        modelsTableCaption: "A list of your available AI models",
+        modelName: "Model Name",
+        provider: "Provider", 
+        type: "Type",
+        status: "Status",
+        active: "Active",
+        inactive: "Inactive",
         
         // 首页
         welcomeMessage: "Welcome to DeepData",
@@ -114,6 +139,14 @@ i18n.use(initReactI18next).init({
         addKnowledge: "Add Knowledge",
         knowledgeCategory: "Knowledge Category",
         searchKnowledge: "Search Knowledge",
+        
+        // 原有的导航菜单 - 保留向后兼容
+        dashboard: "Dashboard",
+        dataCollect: "Data Collection",
+        dataProcess: "Data Processing",
+        dataAnalysis: "Data Analysis",
+        aiAssistant: "AI Assistant",
+        knowledgeBase: "Knowledge Base",
       },
     },
     "zh-CN": {
@@ -121,14 +154,39 @@ i18n.use(initReactI18next).init({
         appName: "DeepData",
         aiDataAssistant: "AI 数据助手",
         
-        // 导航菜单
-        dashboard: "仪表盘",
-        dataCollect: "数据采集",
-        dataProcess: "数据处理",
-        dataAnalysis: "数据分析",
-        aiAssistant: "智能助手",
-        knowledgeBase: "知识库",
+        // 导航菜单 - 重构后
+        workspace: "工作台",
+        dataHub: "数据中心",
+        dataHubDesc: "在一个地方收集、处理和分析您的数据",
+        dataSources: "数据源",
+        dataSourcesDesc: "连接并从文件、API、数据库和网站等各种来源收集数据",
+        datasets: "数据集",
+        datasetsDesc: "转换、清洗和准备数据以进行分析",
+        analytics: "数据分析",
+        analyticsDesc: "通过图表和AI分析可视化数据并获取洞察",
+        aiToolkit: "工具箱",
+        aiToolkitDesc: "访问AI工具和模型，增强数据工作流程",
+        assistant: "智能助手",
+        models: "模型管理",
+        modelsDesc: "管理您的AI模型及其配置",
+        knowledge: "知识库",
+        knowledgeDesc: "组织和访问您的知识库，以获得AI驱动的帮助",
         settings: "设置",
+        
+        // 按钮
+        open: "打开",
+        manage: "管理",
+        addModel: "添加模型",
+        
+        // 模型页面
+        modelsPageDesc: "管理和配置应用程序的AI模型",
+        modelsTableCaption: "您可用的AI模型列表",
+        modelName: "模型名称",
+        provider: "提供商", 
+        type: "类型",
+        status: "状态",
+        active: "活跃",
+        inactive: "未激活",
         
         // 首页
         welcomeMessage: "欢迎使用 DeepData",
@@ -226,6 +284,14 @@ i18n.use(initReactI18next).init({
         addKnowledge: "添加知识",
         knowledgeCategory: "知识分类",
         searchKnowledge: "搜索知识",
+        
+        // 原有的导航菜单 - 保留向后兼容
+        dashboard: "仪表盘",
+        dataCollect: "数据采集",
+        dataProcess: "数据处理",
+        dataAnalysis: "数据分析",
+        aiAssistant: "智能助手",
+        knowledgeBase: "知识库",
       },
     },
     // 简化其他语言的翻译，留下基本结构
