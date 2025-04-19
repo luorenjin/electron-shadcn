@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { 
-  LayoutDashboard, 
   Database, 
   MessageSquare, 
   BookOpen,
@@ -31,14 +30,8 @@ interface MenuItem {
   isNew?: boolean;
 }
 
-// 重新定义导航菜单项，按照三大支柱进行组织
+// 根据产品设计的三大支柱定义核心导航菜单
 const CORE_MENU: MenuItem[] = [
-  { 
-    path: "/", 
-    label: "workspace", 
-    icon: <LayoutDashboard className="h-5 w-5" />,
-    description: "overview"
-  },
   { 
     path: "/ai-assistant", 
     label: "conversation", 

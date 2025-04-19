@@ -8,6 +8,6 @@ declare module "@tanstack/react-router" {
 }
 
 const history = createMemoryHistory({
-  initialEntries: ["/"],
+  initialEntries: ["/ai-assistant"],  // 将初始路由修改为对话页面
 });
 export const router = createRouter({ routeTree: rootTree, history: history });
